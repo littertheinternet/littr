@@ -1,0 +1,6 @@
+{
+    "require": {
+        "nopjmp/discord-webhooks": "^0.3.1",
+        "nikolaposa/rate-limit": "^3.0"
+    }
+}
