@@ -1,0 +1,93 @@
+body {
+    margin-left: 25%;
+    margin-right: 25%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.content {
+    border: 1px solid black;
+    padding: 15px;
+    width: 100%;
+}
+
+#header {
+    background: rgb(246,248,249); /* Old browsers */
+    background: -moz-linear-gradient(top, rgba(246,248,249,1) 0%, rgba(229,235,238,1) 50%, rgba(215,222,227,1) 51%, rgba(245,247,249,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(246,248,249,1) 0%,rgba(229,235,238,1) 50%,rgba(215,222,227,1) 51%,rgba(245,247,249,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(246,248,249,1) 0%,rgba(229,235,238,1) 50%,rgba(215,222,227,1) 51%,rgba(245,247,249,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f8f9', endColorstr='#f5f7f9',GradientType=0 ); /* IE6-9 */
+    padding: 15px;
+    margin: -15px;
+    border-bottom: 1px solid black;
+    margin-bottom: 1px;
+}
+
+a {
+    color: blue;
+}
+
+a:hover {
+    color: red;
+    text-decoration: underline;
+}
+
+#header ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    margin-left: -5px;
+}
+  
+#header li {
+    padding-left: 5px;
+    display: inline-block;
+    float: left;
+}
+
+#post {
+    display: flexbox;
+    padding: 15px;
+    border: 1px solid black;
+    background-color: rgb(231, 231, 231);
+}
+
+#postarea, #postarea:focus {
+    outline: none;
+    width: 99.3%;
+    height: 60px;
+    border: transparent;
+    resize: none;
+    font-family: Arial, Helvetica, sans-serif;
+    color: gray;
+}
+
+input {
+    padding: 4px;
+    border: 1px solid black;
+    background: rgb(240,249,255); /* Old browsers */
+    background: -moz-linear-gradient(top,  rgba(240,249,255,1) 0%, rgba(188,188,188,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  rgba(240,249,255,1) 0%,rgba(188,188,188,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  rgba(240,249,255,1) 0%,rgba(188,188,188,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0f9ff', endColorstr='#bcbcbc',GradientType=0 ); /* IE6-9 */
+}
+
+red{
+    font-weight: 700;
+    color: darkred;
+}
+
+green{
+    font-weight: 700;
+    color: darkgreen;
+}
+
+#post a strong {
+    color: black;
+}
+
+#c {
+    border-radius: 5px;
+    border: 1px solid gray;
+    padding: 5px;
+}
