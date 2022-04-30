@@ -10,13 +10,31 @@
 </head>
 <body>
     <?php include("include/header/logged-out.php"); ?>
-        <strong style="font-size: 25px;">Log In</strong><br><span>Don't have an account? <a href="register.php">Register!</a></span>
+        <strong style="font-size: 25px;">Login</strong><br><span>Don't have an account? <a href="register.php">Register!</a></span>
         <hr>
-        <form action="requests/login.php" method="post">
+        <form method="post">
             <span>Username</span> <input type="text" name="username"><br>
             <span>Password</span> <input type="password" name="password"><br><br>
-            <input type="submit" value="Log In">
+            <input type="submit" value="Log In" name="submit">
         </form>
+        <?php
+            if(isset($_POST["submit"])){
+                $stmt = $conn->prepare("SELECT * from users WHERE username = ?");
+                $stmt->bind_param("s", $_POST['username']);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                if ($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {
+                        if (password_verify($password, $row["password"])) {
+                            $_SESSION['id'] = $row['id'];
+                            header("Location: ../index.php");
+                          }else{
+                              echo "<red>Invalid username/password combination.</red>";
+                          }
+                    }
+                }
+            }
+        ?>
     </div>
 </body>
 </html>
