@@ -78,7 +78,7 @@ if(isset($_POST['submit'])){
 }
 
 if(isset($_POST['request'])){
-    $webhook = new Client('https://discord.com/api/webhooks/967565700032004096/BQeSN46Q2MDJR_a871cmM87YUDEtWebrLDcA0eQPR8sYz03dsteZoobo7Uaodqe9-IGX');
+    $webhook = new Client('XXX');
     $embed = new Embed();
     
     $embed->description('**User ID: ** ' . strval($_SESSION['id']) . ' requested verification.');
