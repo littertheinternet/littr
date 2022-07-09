@@ -22,9 +22,27 @@
             if(isset($_GET['error'])){
                 echo "<strong style='color:darkred;'>Unable to perform specified action(s). This is most likely a server-side issue. If the problem persists, contact us.</strong><br><br>";
             }
+            
 
+            if(isset($_POST['submit'])){
+                $content = $_POST["postcontent"];
+                try {
+                    if(strlen($content) < 1) {
+                        header("Location: index.php");
+                    }else{
+                        $stmt = $conn->prepare("INSERT INTO posts (authorid, postcontent) VALUES (?, ?)");
+                        $stmt->bind_param("ss", $_SESSION['id'], $content);
+                        $stmt->execute();
+            
+                        header("Location: index.php");
+                    }
+                }
+                catch (exception $e) {
+                    header("Location: index.php?error");
+                }
+            }
             if(isset($_SESSION['id'])){
-                echo "<form action='requests/post.php' method='post'><textarea placeholder=\"What's up?\" name='postcontent' id='postarea'></textarea><br><input type='submit' value='Post' name='submit' style='float: right;'></form>";
+                echo "<form action='' method='post'><textarea placeholder=\"What's up?\" name='postcontent' id='postarea'></textarea><br><input type='submit' value='Post' name='submit' style='float: right;'></form>";
             }
         ?>
         <br><br>
@@ -61,9 +79,9 @@
                     if ($user->num_rows > 0) {
                         while ($userrow = $user->fetch_assoc()) {
                             if($userrow["verified"] == 1){ 
-                                echo "<div id=\"post\"><img src='" . htmlspecialchars($userrow['pfp']) . "' height='36' width='36' style='border:1px solid black;'/><br><a style='text-decoration:none;'><strong> " . htmlspecialchars($userrow['displayname']) . " </strong><img src='static/verified.png' height='15'/><span style=\"color: rgb(72, 72, 72);\"> @" . htmlspecialchars($userrow['username']) .  "</span></a><br><span>" . htmlspecialchars($row['postcontent']) . "</span><br><span style=\"color: rgb(95, 95, 95);\">" . $row['timeposted'] . " </span></div><br>";
+                                echo "<div id=\"post\"><img src='" . htmlspecialchars($userrow['pfp']) . "' height='36' width='36' style='border:1px solid black;'/><div style='display:inline-block;margin-left:10px;width:90%;'><a style='text-decoration:none;'><strong> " . htmlspecialchars($userrow['displayname']) . " </strong><img src='static/verified.png' height='15'/><span style=\"color: rgb(72, 72, 72);\"> @" . htmlspecialchars($userrow['username']) .  "</span></a><br><span>" . htmlspecialchars($row['postcontent']) . "</span><br><span style=\"color: rgb(95, 95, 95);\">" . $row['timeposted'] . " </span></div></div><br>";
                             }else{
-                                echo "<div id=\"post\"><img src='" . htmlspecialchars($userrow['pfp']) . "' height='36' width='36' style='border:1px solid black;'/><br><a style='text-decoration:none;'><strong> " . htmlspecialchars($userrow['displayname']) . "</strong><span style=\"color: rgb(72, 72, 72);\"> @" . htmlspecialchars($userrow['username']) .  "</span></a><br><span>" . htmlspecialchars($row['postcontent']) . "</span><br><span style=\"color: rgb(95, 95, 95);\">" . $row['timeposted'] . "</span></div><br>";
+                                echo "<div id=\"post\"><img src='" . htmlspecialchars($userrow['pfp']) . "' height='36' width='36' style='border:1px solid black;'/><div style='display:inline-block;margin-left:10px;width:90%;><a style='text-decoration:none;'><strong> " . htmlspecialchars($userrow['displayname']) . "</strong><span style=\"color: rgb(72, 72, 72);\"> @" . htmlspecialchars($userrow['username']) .  "</span></a><br><span>" . htmlspecialchars($row['postcontent']) . "</span><br><span style=\"color: rgb(95, 95, 95);\">" . $row['timeposted'] . "</span></div></div><br>";
                             }
                         }
                     }

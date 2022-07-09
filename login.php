@@ -18,22 +18,30 @@
             <input type="submit" value="Log In" name="submit">
         </form>
         <?php
-            if(isset($_POST["submit"])){
-                $stmt = $conn->prepare("SELECT * from users WHERE username = ?");
-                $stmt->bind_param("s", $_POST['username']);
-                $stmt->execute();
-                $result = $stmt->get_result();
-                if ($result->num_rows > 0) {
-                    while($row = $result->fetch_assoc()) {
-                        if (password_verify($password, $row["password"])) {
-                            $_SESSION['id'] = $row['id'];
-                            header("Location: ../index.php");
-                          }else{
-                              echo "<red>Invalid username/password combination.</red>";
-                          }
-                    }
+         if(isset($_POST['submit'])){
+             $username = $_POST['username'];
+             $password = $_POST['password'];
+
+             $stmt = $conn->prepare("SELECT * from users WHERE username = ?");
+             $stmt->bind_param("s", $username);
+             $stmt->execute();
+             $result = $stmt->get_result();
+
+             if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                  $db_password = $row['password'];
+            
+                  if (password_verify($password, $db_password)) {
+                    $_SESSION['id'] = $row['id'];
+                    header("Location: index.php");
+                  } else {
+                      echo "<br><red>Incorrect username/password combination.</red>";
+                  }
                 }
-            }
+              } else {
+                  echo "<br><red>User does not exist or has been deleted.</red>";
+              }
+         }
         ?>
     </div>
 </body>

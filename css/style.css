@@ -22,6 +22,20 @@ body {
     margin-bottom: 1px;
 }
 
+#headerv {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#a90329+0,8f0222+44,6d0019+100;Brown+Red+3D */
+    background: #a90329; /* Old browsers */
+    background: -moz-linear-gradient(top,  #a90329 0%, #8f0222 44%, #6d0019 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  #a90329 0%,#8f0222 44%,#6d0019 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  #a90329 0%,#8f0222 44%,#6d0019 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', endColorstr='#6d0019',GradientType=0 ); /* IE6-9 */
+    padding: 15px;
+    margin: -15px;
+    border-bottom: 1px solid black;
+    color: white;
+    margin-bottom: 1px;
+}
+
 a {
     color: blue;
 }
@@ -31,7 +45,7 @@ a:hover {
     text-decoration: underline;
 }
 
-#header ul {
+#header ul, #headerv ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -39,10 +53,14 @@ a:hover {
     margin-left: -5px;
 }
   
-#header li {
+#header li, #headerv li {
     padding-left: 5px;
     display: inline-block;
     float: left;
+}
+
+#headerv a {
+    color: white;
 }
 
 #post {
@@ -62,7 +80,9 @@ a:hover {
     color: gray;
 }
 
-input {
+input, a#button {
+    color: black;
+    text-decoration: none;
     padding: 4px;
     border: 1px solid black;
     background: rgb(240,249,255); /* Old browsers */
@@ -86,8 +106,22 @@ green{
     color: black;
 }
 
+#post img {
+    vertical-align: top;
+}
+
+#h {
+    display: inline-block;
+}
+
 #c {
     border-radius: 5px;
     border: 1px solid gray;
     padding: 5px;
+}
+
+.warning {
+    background-color: lightyellow;
+    padding: 5px;
+    border: 1px solid rgb(255, 180, 40);
 }
