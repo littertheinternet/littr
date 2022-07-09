@@ -18,21 +18,23 @@
             <input type="submit" value="Log In" name="submit">
         </form>
         <?php
-            if(isset($_POST["submit"])){
-                $stmt = $conn->prepare("SELECT * from users WHERE username = ?");
+			// TODO: Refuse login if user is suspended.
+            if(isset($_POST["submit"])) {
+                $stmt = $conn->prepare("SELECT username, password from users WHERE username = ?");
                 $stmt->bind_param("s", $_POST['username']);
                 $stmt->execute();
                 $result = $stmt->get_result();
                 if ($result->num_rows > 0) {
-                    while($row = $result->fetch_assoc()) {
-                        if (password_verify($password, $row["password"])) {
-                            $_SESSION['id'] = $row['id'];
-                            header("Location: ../index.php");
-                          }else{
-                              echo "<red>Invalid username/password combination.</red>";
-                          }
-                    }
-                }
+                    $user = $result->fetch_assoc();
+					if(password_verify($_POST['password'], $user['password'])) {
+						$_SESSION['id'] = $user['id'];
+						header("Location: index.php");
+					} else {
+						echo "<red>Invalid username/password combination.</red>";
+					}
+                } else {
+					echo "<red>Username does not exist.</red>";
+				}
             }
         ?>
     </div>
