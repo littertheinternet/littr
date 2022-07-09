@@ -45,23 +45,76 @@
                 $stmt = $conn->prepare("SELECT * FROM users WHERE id = " . $_SESSION['id']);
                 $stmt->execute();
                 $user = $stmt->get_result();
+                $stmt->close();
                 if ($user->num_rows > 0) {
                     while ($userrow = $user->fetch_assoc()) {
-                        echo "<form method='post' action='savesettings.php' enctype=\"multipart/form-data\"><span>Display Name </span> <input type=\"text\" name=\"displayname\" id=\"displayname\" value=\"" . $userrow['displayname'] . "\"><br>";
-                        echo "<span>Profile Picture </span> <input type=\"file\" name=\"pfp\" id=\"pfp\" value=\"" . $userrow['pfp'] . "\"><red style='font-size:15px;'> Under 50KB, only JPG/JPEG & PNG</red><br>";
-                        echo "<span>Username </span> <input type=\"text\" name=\"username\" id=\"username\" value=\"" . $userrow['username'] . "\"><br>";
-                        echo "<span>Change Password </span> <input type=\"password\" name=\"password\" id=\"password\"><br><br><input type=\"submit\" value=\"Save changes\" name=\"submit\"><br><hr>";
-                        
-                        if($userrow['verified'] !== 1){
-                            echo "<strong><img src='static/verified.png' height='15'/> Request Verification</strong><br><span>Verification ensures that the person(s)/orginization is authentic and reconginzable. Below are our minimum requirements for your littr account to be verified.<br><ul><li>Active on littr (spamming does not count as activity)</li><li>Recongizable/notable in the littr community; the community knows you well</li><li>Has not posted any vulgar or violent content that violates our Community Guidelines</li></ul><i>If you believe that you meet these requirements, click \"Request\" below to send a verification request. Most applicants are reviewed within 24 hours.</i></span><br><br><form action='requests/requestverification.php' method='post'>'<input type=\"submit\" value=\"Request\" name=\"request\"></form>";
-                        }else{
-                            echo "<strong><img src='static/verified.png' height='15'/> Request Verification</strong><br><span>Your account is already verified.</span><br><br><img src='static/icon_red_lock.gif'/><strong> Don't lose your verification status!</strong><span> To ensure that you remain verified, follow the below steps.</span><ul><li><strong>Regularly change your password.</strong> littr could remove your verification status if your account gets comprimised for security purposes. We don't want people mislead.</li><li><strong>Adhere to the Community Guidelines.</strong> littr reserves the right to take away verification status without warning, but littr usually takes away verification status in reply to a Community Guidelines violation.</li><li><strong>Have common sense.</strong> Read the audience when you post. A simple mistake could turn into a serious catastrophy.</li></ul>";
-                        }
+                        echo "<form method='post' enctype=\"multipart/form-data\"><span>Display Name </span> <input type=\"text\" name=\"displayname\" id=\"displayname\" value=\"" . $userrow['displayname'] . "\"><br>";
+                        echo "<span>Username </span> <span style='color:gray'>@" . htmlspecialchars($userrow['username']) . "</span><br><br><input type='submit' name='submit' value='Save'></form><hr>";
+                        echo "<form method='post' enctype=\"multipart/form-data\"<span>Profile Picture </span> <input type=\"file\" name=\"pfp\" id=\"pfp\" value=\"" . $userrow['pfp'] . "\"><red style='font-size:15px;'> Under 100KB, only JPG/JPEG & PNG</red><br><br><input type='submit' name='pfps' value='Upload Profile Picture'></form>";
 
                     }
                 }
 
+                if(isset($_POST['submit'])){
+                    $dp = $_POST['displayname'];
+
+                    $stmt = $conn->prepare("UPDATE users SET displayname = ? WHERE id = ?");
+                    $stmt->bind_param("ss", $dp, $_SESSION["id"]); 
+                    $stmt->execute();
+                }
+
+                if(isset($_POST['pfps'])){
+                    
+
+                    $uploadok = 1;
                 
+                    $targetf = "pfp/"; 
+                    $target = $targetf . time() . "-". rand(111111,999999) . basename( $_FILES['pfp']['name']);
+                    $imageFileType = strtolower(pathinfo($target,PATHINFO_EXTENSION));
+                    
+                    
+                    
+                    //This gets all the other information from the form 
+
+                    if ($_FILES["pfp"]["size"] > 100000) {
+                        header("Location: settings.php?pe2");
+                        $uploadok = 0;
+                      }
+                
+                      if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                    && $imageFileType != "gif" ) {
+                        header("Location: settings.php?pe1");
+                    $uploadok = 0;
+                    }
+                
+                    if($uploadok != 0){
+                        $stmt = $conn->prepare("UPDATE users SET pfp = ? WHERE id = ?");
+                        $stmt->bind_param("ss", $target, $_SESSION["id"]); 
+                        $stmt->execute();
+                
+                        if(move_uploaded_file($_FILES['pfp']['tmp_name'], $target)) 
+                        { 
+                    
+                        //Tells you if its all ok
+
+                        header("Location: settings.php?us");
+                        }
+                        
+                        else { 
+                     
+                        //Gives an error if its not 
+                        header("Location: settings.php?pe3");
+                        } 
+                    }
+                    
+                    
+
+                    $stmt = $conn->prepare("UPDATE users SET pfp = ? WHERE id = ?");
+                    $stmt->bind_param("ss", $target, $_SESSION["id"]); 
+                    $stmt->execute();
+                }
+                
+                    
             ?>
         </form>
     </div>

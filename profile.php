@@ -41,13 +41,15 @@
                         if ($rows->num_rows > 0) {
                             while ($row = $rows->fetch_assoc()) {
                                 if($userrow["verified"] == 1){ 
-                                    echo "<div id=\"post\"><img src='" . $userrow['pfp'] . "' height='36' width='36' style='border:1px solid black;'/><br><strong> " . htmlspecialchars($userrow['displayname']) . " </strong><img src='static/verified.png' height='15'/><span style=\"color: rgb(72, 72, 72);\"> @" . htmlspecialchars($userrow['username']) .  "</span><br><span>" . htmlspecialchars($row['postcontent']) . "</span><br><span style=\"color: rgb(95, 95, 95);\">" . $row['timeposted'] . "</span></div><br>";
+                                    echo "<div id=\"post\"><img src='" . htmlspecialchars($userrow['pfp']) . "' height='36' width='36' style='border:1px solid black;'/><div style='display:inline-block;margin-left:10px;width:90%;'><a style='text-decoration:none;'><strong> " . htmlspecialchars($userrow['displayname']) . " </strong><img src='static/verified.png' height='15'/><span style=\"color: rgb(72, 72, 72);\"> @" . htmlspecialchars($userrow['username']) .  "</span></a><br><span>" . htmlspecialchars($row['postcontent']) . "</span><br><span style=\"color: rgb(95, 95, 95);\">" . $row['timeposted'] . " </span></div></div><br>";
                                 }else{
-                                    echo "<div id=\"post\"><img src='" . $userrow['pfp'] . "' height='36' width='36' style='border:1px solid black;'/><br><strong> " . htmlspecialchars($userrow['displayname']) . "</strong><span style=\"color: rgb(72, 72, 72);\"> @" . htmlspecialchars($userrow['username']) .  "</span><br><span>" . htmlspecialchars($row['postcontent']) . "</span><br><span style=\"color: rgb(95, 95, 95);\">" . $row['timeposted'] . "</span></div><br>";
+                                    echo "<div id=\"post\"><img src='" . htmlspecialchars($userrow['pfp']) . "' height='36' width='36' style='border:1px solid black;'/><div style='display:inline-block;margin-left:10px;width:90%;><a style='text-decoration:none;'><strong> " . htmlspecialchars($userrow['displayname']) . "</strong><span style=\"color: rgb(72, 72, 72);\"> @" . htmlspecialchars($userrow['username']) .  "</span></a><br><span>" . htmlspecialchars($row['postcontent']) . "</span><br><span style=\"color: rgb(95, 95, 95);\">" . $row['timeposted'] . "</span></div></div><br>";
                                 }
                             }
                         }
                     }
+                }else{
+                    echo "<center>No profile here! The user you are trying to reach either does not exist or has been suspended.</center>";
                 }
         ?>
     </div>

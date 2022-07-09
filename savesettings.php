@@ -63,7 +63,7 @@ if(isset($_POST['submit'])){
         }
 
 
-    if(!isset($_POST['pfp'])){
+    if(empty($_POST['pfp'])){
         $displayname = $_POST['displayname'];
         $username = $_POST['username'];
         $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
