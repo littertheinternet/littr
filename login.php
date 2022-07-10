@@ -17,26 +17,29 @@
             <span>Password</span> <input type="password" name="password"><br><br>
             <input type="submit" value="Log In" name="submit">
         </form>
-        <?php
+		<?php
 			// TODO: Refuse login if user is suspended.
-            if(isset($_POST["submit"])) {
-                $stmt = $conn->prepare("SELECT username, password from users WHERE username = ?");
-                $stmt->bind_param("s", $_POST['username']);
-                $stmt->execute();
-                $result = $stmt->get_result();
-                if ($result->num_rows > 0) {
-                    $user = $result->fetch_assoc();
-					if(password_verify($_POST['password'], $user['password'])) {
+			if(isset($_POST['username']) && isset($_POST['password'])) {
+				$username = $_POST['username'];
+				$password = $_POST['password'];
+				
+				$stmt = $conn->prepare("SELECT username, password from users WHERE username = ?");
+				$stmt->bind_param("s", $username);
+				$stmt->execute();
+				$result = $stmt->get_result();
+				if ($result->num_rows > 0) {
+					$user = $result->fetch_assoc();
+					if(password_verify($password, $user['password'])) {
 						$_SESSION['id'] = $user['id'];
 						header("Location: index.php");
 					} else {
 						echo "<red>Invalid username/password combination.</red>";
 					}
-                } else {
+				} else {
 					echo "<red>Username does not exist.</red>";
 				}
-            }
-        ?>
+			}
+		?>
     </div>
 </body>
 </html>
